@@ -10,6 +10,7 @@ import {
   serverTimestamp,
   where,
 } from "firebase/firestore";
+import { Navbar } from "../Navbar/Navbar";
 
 // eslint-disable-next-line react/prop-types
 export const Chat = ({ room }) => {
@@ -17,8 +18,6 @@ export const Chat = ({ room }) => {
 
   const [text, setText] = useState([]);
   const messageRef = collection(db, "messages");
-
-  console.log(text);
 
   const handleSubmit = async () => {
     try {
@@ -32,7 +31,6 @@ export const Chat = ({ room }) => {
     } catch (error) {
       console.log(error);
     }
-    setText("");
   };
   useEffect(() => {
     const queryMessage = query(
@@ -53,22 +51,25 @@ export const Chat = ({ room }) => {
   }, []);
 
   return (
-    <section className=" flex flex-col justify-end items-center  w-screen h-screen">
-      <TextChat text={text} />
-      <article className="h-fit flex gap-5 mb-10 w-full justify-center">
-        <input
-          type="text"
-          className="w-4/5 text-black text-xl border-2 rounded border-indigo-600"
-          value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
-        />
-        <button
-          onClick={handleSubmit}
-          className="bg-indigo-600 text-white font-bold text-xl py-2 px-5 rounded hover:bg-slate-900 hover:border "
-        >
-          SEND
-        </button>
-      </article>
-    </section>
+    <>
+      <Navbar name={auth.currentUser.displayName} />
+      <section className=" flex flex-col justify-end items-center  w-screen h-screen">
+        <TextChat text={text} />
+        <article className="h-fit flex gap-5 mb-10 w-full justify-center">
+          <input
+            type="text"
+            className="w-4/5 text-black text-xl border-2 rounded border-indigo-600"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+          />
+          <button
+            onClick={handleSubmit}
+            className="bg-indigo-600 text-white font-bold text-xl py-2 px-5 rounded hover:bg-slate-900 hover:border "
+          >
+            SEND
+          </button>
+        </article>
+      </section>
+    </>
   );
 };

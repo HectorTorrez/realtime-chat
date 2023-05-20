@@ -17,14 +17,23 @@ export const Home = () => {
   };
 
   return (
-    <section>
+    <section className="bg-slate-900 h-screen text-white flex  flex-col items-center justify-center">
       {!isInChat ? (
         <>
-          <label>
-            <h1>Room</h1>
-            <input onChange={(e) => setRoom(e.target.value)} type="text" />
+          <label className="w-full flex flex-col items-center gap-10">
+            <h3 className="font-bold text-6xl ">Enter a room</h3>
+            <input
+              onChange={(e) => setRoom(e.target.value)}
+              type="text"
+              className="text-black text-xl rounded text-center "
+            />
           </label>
-          <button onClick={() => handleIsInChat()}>ENTER</button>
+          <button
+            className="bg-indigo-600 text-white font-bold text-xl py-2 px-5 rounded hover:bg-slate-900 hover:border mt-5"
+            onClick={() => handleIsInChat()}
+          >
+            ENTER
+          </button>
         </>
       ) : (
         <Chat room={room} />
