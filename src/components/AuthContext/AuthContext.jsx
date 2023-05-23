@@ -7,26 +7,39 @@ import {
 } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export const AuthContext = createContext();
+export const authContext = createContext();
+
 // eslint-disable-next-line react/prop-types
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const logout = () => signOut(auth);
-  const loginWithGoogle = () => {
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+  const loginWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      return await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      setLoading(false);
     });
   }, []);
 
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, [user]);
+
   return (
-    <AuthContext.Provider value={{ loginWithGoogle, user, logout }}>
+    <authContext.Provider value={{ loginWithGoogle, user, logout, loading }}>
       {children}
-    </AuthContext.Provider>
+    </authContext.Provider>
   );
 };

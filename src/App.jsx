@@ -3,6 +3,7 @@ import { Home } from "./components/Home/Home";
 import { Login } from "./components/Login/Login";
 import { AuthProvider } from "./components/AuthContext/AuthContext";
 import { ProtectedRouter } from "./components/ProtectedRouter/ProtectedRouter";
+import { Chat } from "./components/Chat/Chat";
 
 export const App = () => {
   return (
@@ -17,6 +18,7 @@ export const App = () => {
           }
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/chat" element={<Chat />} />
       </Routes>
     </AuthProvider>
   );
