@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TextChat } from "../TextChat/TextChat";
 import { auth, db } from "../../firebase";
 import {
@@ -19,6 +19,18 @@ export const Chat = ({ room }) => {
   const [text, setText] = useState([]);
   const messageRef = collection(db, "messages");
 
+  const chatContainerRef = useRef(null);
+  useEffect(() => {
+    scrollChatToBottom();
+  }, []);
+  useEffect(() => {
+    window.scrollTo({ bottom: 0, left: 0, behavior: "smooth" });
+  }, []);
+
+  const scrollChatToBottom = () => {
+    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+  };
+
   const handleSubmit = async () => {
     try {
       if (inputText === "") return;
@@ -31,6 +43,11 @@ export const Chat = ({ room }) => {
     } catch (error) {
       console.log(error);
     }
+    scrollChatToBottom();
+
+    const chatContainer = chatContainerRef.current;
+    const lastMessage = chatContainer.lastElementChild;
+    lastMessage.scrollIntoView({ behavior: "smooth" });
   };
   useEffect(() => {
     const queryMessage = query(
@@ -43,7 +60,6 @@ export const Chat = ({ room }) => {
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
-      console.log(messages);
       setText(messages);
     });
 
@@ -53,14 +69,18 @@ export const Chat = ({ room }) => {
   return (
     <>
       <Navbar name={auth.currentUser.displayName} />
-      <section className=" flex flex-col justify-end items-center  w-screen h-screen">
-        <TextChat text={text} />
-        <article className="h-fit flex gap-5 mb-10 w-full justify-center">
+      <section className="flex items-end h-screen  w-full justify-center overflow-auto ">
+        <TextChat text={text} chatContainerRef={chatContainerRef} />
+      </section>
+      <section className=" flex flex-col justify-end items-end md:items-start md:w-3/5  h-fit">
+        <article className="h-fit flex  gap-5 md:gap-12 mb-10 w-full justify-center mt-10">
           <input
             type="text"
             className="w-4/5 text-black text-xl border-2 rounded border-indigo-600"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
+            maxLength={500}
+            placeholder="Type your message here..."
           />
           <button
             onClick={handleSubmit}

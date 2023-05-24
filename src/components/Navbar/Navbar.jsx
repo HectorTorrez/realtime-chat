@@ -21,13 +21,13 @@ export const Navbar = ({ name }) => {
   //   };
 
   return (
-    <nav className="bg-slate-900 h-16 w-screen flex justify-between items-center px-10">
-      <h1 className="text-white font-bold text-2xl">{name}</h1>
+    <nav className="bg-slate-900 h-16 md:w-3/5 flex  w-full justify-between items-center  ">
+      <h1 className="text-white font-bold text-2xl md:ml-4">{name}</h1>
       <div className="flex gap-5">
         {/* <button onClick={handleHome}>Go Room</button> */}
         <button
           onClick={handleLogout}
-          className="text-white font-bold text-xl py-2 px-5 rounded hover:bg-slate-900 hover:border "
+          className="text-white font-bold text-xl py-2 px-3 rounded hover:bg-slate-900 hover:border "
         >
           Logout
         </button>
