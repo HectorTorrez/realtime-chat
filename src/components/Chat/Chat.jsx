@@ -66,19 +66,27 @@ export const Chat = ({ room }) => {
     return () => unsuscribe();
   }, []);
 
+  const handlerEnter = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+      setInputText("");
+    }
+  };
+
   return (
     <>
       <Navbar name={auth.currentUser.displayName} />
       <section className="flex items-end h-screen  w-full justify-center overflow-auto ">
         <TextChat text={text} chatContainerRef={chatContainerRef} />
       </section>
-      <section className=" flex flex-col justify-end items-end md:items-start md:w-3/5  h-fit">
-        <article className="h-fit flex  gap-5 md:gap-12 mb-10 w-full justify-center mt-10">
+      <section className=" flex flex-col justify-end items-end xl:items-start xl:w-3/5  h-fit w-full lg:w-3/5">
+        <article className="h-fit flex  gap-5 xl:gap-12 mb-10 w-full justify-center mt-10">
           <input
             type="text"
-            className="w-4/5 text-black text-xl border-2 rounded border-indigo-600"
+            className="w-4/5 md:w-full text-black text-xl border-2 rounded border-indigo-600"
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
+            onKeyDown={handlerEnter}
             maxLength={500}
             placeholder="Type your message here..."
           />
