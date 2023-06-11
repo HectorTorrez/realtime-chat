@@ -4,7 +4,7 @@ export const TextChat = ({ text, chatContainerRef }) => {
   return (
     <section
       ref={chatContainerRef}
-      className="text-white flex flex-col border-5 border-indigo-600 w-full mr-4 lg:w-3/5 xl:ml-5 h-5/6 overflow-y-scroll"
+      className="text-white flex flex-col-reverse border-5 border-indigo-600 w-full mr-4 lg:w-3/5 xl:ml-5 h-5/6 overflow-y-scroll"
     >
       {/* <button
         onClick={() => {
